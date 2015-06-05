@@ -8,9 +8,6 @@
   "engines": {
     "node": "0.12.x",
     "npm": "2.5.x"
-  "engines":{
-    "node":"0.12.x",
-    "npm" : "2.5.x"
   },
   "dependencies": {
     "body-parser": "~1.8.1",
