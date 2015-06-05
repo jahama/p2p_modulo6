@@ -10,6 +10,11 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'Quiz' });
 });
 
+/* GET Author page. */
+router.get('/author', function(req, res) {
+  res.render('author', { title: 'Quiz' });
+});
+
 // Se viene por esta ruta, renderizara la vista en la que se vera
 // la pregunta con el cuadro de texto para introducir la respuesta
 router.get('/quizes/question', quizController.question);
