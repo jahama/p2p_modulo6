@@ -3,6 +3,16 @@ var express = require('express');
 var router = express.Router();
 
 var quizController = require ('../controllers/quiz_controller');
+/*********************************************/
+/***** Definicion de las rutas de Quizes *****/
+/*********************************************/
+router.get('/quizes', 						quizController.index);
+router.get('/quizes/:quizId(\\d+)',			quizController.show);
+router.get('/quizes/:quizId(\\d+)/answer',	quizController.answer);
+
+
+
+
 
 
 /* GET home page. */

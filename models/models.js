@@ -12,7 +12,6 @@ var port     = (url[5]||null);
 var host     = (url[4]||null);
 var storage  = process.env.DATABASE_STORAGE;
 
-console.log(url);
 //Cargar Modelo ORM
 var Sequelize = require('sequelize');
 
@@ -27,7 +26,7 @@ var sequelize = new Sequelize(DB_name, user, pwd,
 							omitNull : true	     // Solo Postgres
 						}
 					);
-console.log(sequelize);
+
 // Importar la definicion de la tabla Quiz en quiz.js
 var quiz_path = path.join(__dirname,'quiz')
 var Quiz = sequelize.import(quiz_path);
@@ -47,8 +46,12 @@ sequelize.sync().success(function(){
 			Quiz.create({
 							pregunta :'Capital de Roma',
 							respuesta:'Roma'
+						});
+			Quiz.create({
+							pregunta :'Capital de Portugal',
+							respuesta:'Lisboa'
 						})
-			.success(function(){console.log('Base de datos inicializada')});
+			.then(function(){console.log('Base de datos inicializada')});
 		};
 	});
 });
