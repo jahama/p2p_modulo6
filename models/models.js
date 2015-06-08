@@ -12,6 +12,7 @@ var port     = (url[5]||null);
 var host     = (url[4]||null);
 var storage  = process.env.DATABASE_STORAGE;
 
+console.log(url);
 //Cargar Modelo ORM
 var Sequelize = require('sequelize');
 
@@ -39,9 +40,12 @@ El método sequelize.sync() crea automáticamente el fichero quiz.sqlite con
 la DB y sus datos iniciales, si la DB no existe. Si existe sincroniza con nuevas
 definiciones del modelo, siempre que sean compatibles con anteriores.
 */
+console.log('--------- 2 -------------');
 sequelize.sync().success(function(){
+	console.log('--------- 3 -------------');
 	// success(..) ejecuta el manejador una vez creada la tabla
 	Quiz.count().success(function(count){
+		console.log('--------- 4 -------------');
 		if(count===0){ // la tabla se inicializa solo si esta vacia
 			Quiz.create({
 							pregunta :'Capital de Roma',
