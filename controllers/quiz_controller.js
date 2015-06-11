@@ -16,11 +16,20 @@ exports.load =function(req, res, next, quizId){
 
 // GET /quizes
 exports.index = function(req,res){	
-	models.Quiz.findAll().then(
-		function(quizes){		
-			res.render('quizes/index.ejs',{quizes:quizes});
-		}
-	).catch(function(error) {next(error);})
+	// Se utiliza el buscador 
+	if (typeof(req.query.search) !== "undefined") {
+		models.Quiz.findAll({where: ["pregunta like ?", '%' + req.query.search + '%'], order:'pregunta ASC'}).then(
+			function(quizes){						
+				res.render('quizes/index.ejs',{quizes:quizes,numero_preguntas:quizes.length});
+			}
+		).catch(function(error) {next(error);})
+	}else{ // No se utiliza el buscador --> Se muestra todas las preguntas que hay en la BBDD
+		models.Quiz.findAll().then(
+			function(quizes){		
+				res.render('quizes/index.ejs',{quizes:quizes});
+			}
+		).catch(function(error) {next(error);})
+	}
 };
 
 // GET /quizes/:id
