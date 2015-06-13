@@ -48,14 +48,39 @@ exports.answer = function(req,res){
 	}
 		
 	res.render('quizes/answer',{quiz:req.quiz, respuesta:resultado});
-		
-	
+			
 };
 
 
 
+// GET /quizes/new
+exports.new = function(req,res){
+	/*
+		El método build(..) de sequelize creo un objeto no persistente asociado a la tabla Quiz, 
+		con las propiedades inicializadas. Este objeto se utiliza aquí solo para renderizar las vistas
+	*/
+	var quiz = models.Quiz.build(  // crea el objeto Quiz
+			{pregunta:"Pregunta", respuesta:"Respuesta"}
+	);
+	res.render('quizes/new', {quiz:quiz});	
+};
 
+// POST /quizes/create: añade la primitiva que introduce nuevos quizes en la DB.
+/*
+	El controlador create de POST /quizes/create genera el objeto quiz con models.Quiz.build( req.body.quiz ),
+	incializandolo con los parámetros enviados desde el formulario, que están accesibles en req.body.quiz. 
+*/
+exports.create = function(req,res){
+	var quiz = models.Quiz.build(req.body.quiz);
 
+	// Guarda en la BBDD los campos pregunta y respuesta de Quiz
+	quiz.save({fields:["pregunta","respuesta"]}).then(function(){
+		// Una primitiva HTTP POST /quizes/create no tiene vista asociada. 
+		// Al acabar realiza una redirección HTTP a la lista 
+		// de preguntas invocando el método res.redirect(‘/quizes’) de express
+		res.redirect('/quizes'); // Redireccion HTTP (URL relativo) lista de preguntas
+	})
+};
 
 
 
