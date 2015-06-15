@@ -30,7 +30,10 @@ router.get('/quizes/:quizId(\\d+)/answer',	quizController.answer);
 router.get('/quizes/new',					quizController.new);
 // POST /quizes/create: añade la primitiva que introduce nuevos quizes en la DB.
 router.post('/quizes/create',				quizController.create);
-
+// 
+router.get('/quizes/:quizId(\\d+)/edit',	quizController.edit);
+// PUT /quizes/:quizId actualiza la DB con la pregunta corregida
+router.put('/quizes/:quizId(\\d+)',		quizController.update)
 
 /* GET Author page. */
 router.get('/author', function(req, res) {
