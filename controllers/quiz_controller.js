@@ -20,13 +20,13 @@ exports.index = function(req,res){
 	if (typeof(req.query.search) !== "undefined") {
 		models.Quiz.findAll({where: ["pregunta like ?", '%' + req.query.search + '%'], order:'pregunta ASC'}).then(
 			function(quizes){						
-				res.render('quizes/index.ejs',{quizes:quizes,numero_preguntas:quizes.length});
+				res.render('quizes/index.ejs',{quizes:quizes,numero_preguntas:quizes.length, errors:[]});
 			}
 		).catch(function(error) {next(error);})
 	}else{ // No se utiliza el buscador --> Se muestra todas las preguntas que hay en la BBDD
 		models.Quiz.findAll().then(
 			function(quizes){		
-				res.render('quizes/index.ejs',{quizes:quizes});
+				res.render('quizes/index.ejs',{quizes:quizes, errors:[]});
 			}
 		).catch(function(error) {next(error);})
 	}
@@ -35,7 +35,7 @@ exports.index = function(req,res){
 // GET /quizes/:id
 exports.show = function(req,res){
 	models.Quiz.find(req.params.quizId).then(function(quiz){
-		res.render('quizes/show', {quiz:req.quiz});
+		res.render('quizes/show', {quiz:req.quiz,errors:[]});
 	});
 };
 
@@ -45,9 +45,10 @@ exports.answer = function(req,res){
 	var resultado = 'Incorrecto';	
 	if (req.query.respuesta === req.quiz.respuesta){
 		 resultado='Correcto';
+
 	}
 		
-	res.render('quizes/answer',{quiz:req.quiz, respuesta:resultado});
+	res.render('quizes/answer',{quiz:req.quiz, respuesta:resultado,errors:[]});
 			
 };
 
@@ -62,7 +63,7 @@ exports.new = function(req,res){
 	var quiz = models.Quiz.build(  // crea el objeto Quiz
 			{pregunta:"Pregunta", respuesta:"Respuesta"}
 	);
-	res.render('quizes/new', {quiz:quiz});	
+	res.render('quizes/new', {quiz:quiz,errors:[]});	
 };
 
 // POST /quizes/create: añade la primitiva que introduce nuevos quizes en la DB.
@@ -72,17 +73,22 @@ exports.new = function(req,res){
 */
 exports.create = function(req,res){
 	var quiz = models.Quiz.build(req.body.quiz);
+	console.log("-------------- " ,typeof(quiz));
 
-	// Guarda en la BBDD los campos pregunta y respuesta de Quiz
-	quiz.save({fields:["pregunta","respuesta"]}).then(function(){
-		// Una primitiva HTTP POST /quizes/create no tiene vista asociada. 
-		// Al acabar realiza una redirección HTTP a la lista 
-		// de preguntas invocando el método res.redirect(‘/quizes’) de express
-		res.redirect('/quizes'); // Redireccion HTTP (URL relativo) lista de preguntas
-	})
+	quiz
+	.validate()
+	.then(
+		function(err){
+			if (err) {
+				res.render('quizes/new', {quiz:quiz,errors:err.errors});
+			}else{
+				quiz // save: guarda en la BBDD los campos pregunta y respuesta de quiz
+				.save({fields: ["pregunta","respuesta"]})
+				.then(function(){res.redirect('/quizes')})  // Redireccion HTTP (URL relativo) lista de preguntas
+			}  
+		}
+	);
 };
-
-
 
 
 //GET  /quizes/question
@@ -92,7 +98,7 @@ exports.question = function(req,res){
 	 los procesamos en el callback del método success(..). 
 	*/
 	models.Quiz.findAll().success(function(quiz){
-		res.render('quizes/question',{pregunta:quiz[0].pregunta});
+		res.render('quizes/question',{pregunta:quiz[0].pregunta,errors:[]});
 	})	
 };
 

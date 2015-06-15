@@ -10,7 +10,7 @@ body 				{font: 16px Georgia, serif}
 }
 
 section > div {padding: 20px;}
-section.main {min-height: 120px}
+section.main, nav.main {min-height: 280px}
 header, nav, section, footer {background: #eee; text-align: center}
 nav span {margin: 0px 10px 0px 0px;}
 
@@ -18,3 +18,7 @@ nav span {margin: 0px 10px 0px 0px;}
 	float: left; 
 	margin: 0px 15px 15px 0px;
 }
+
+/** mensajes de error **/
+nav span 	{margin: 0 10px 0  0;}
+#ErrorMsgs 	{color:#f61; font-size: smaler;}
