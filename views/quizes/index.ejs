@@ -14,8 +14,23 @@
 	<% var i; for (i=0; i<quizes.length; i++) {  %>
 		<tr>
 			<td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
-			<td><a href="/quizes/<%= quizes[i].id %>/edit"><button type="button">Editar</button></a>
-</td>
+			<td><a href="/quizes/<%= quizes[i].id %>/edit"><button type="button">Editar</button></a></td>
+			<%  /* 
+				Se añade botón de borrar a cada pregunta en la lista de preguntas: quiz/index.ejs.
+				La operación POST de borrado de una pregunta se genera con un formulario que solo tiene
+				un botón y que lleva el :id de la pregunta, además de PUT encapsulado (con method
+				override) en el path de la solicitud HTTP.
+				El botón de submit del formulario lleva un manejador JavaScript que despliega un panel de
+				confirmación antes de enviar la orden de borrado de la pregunta.
+
+			 */  %>
+			<td>
+				<form method="POST" action="/quizes/<%= quizes[i].id %>?_method=DELETE" >
+					<button type="submit" onClick="return confirm('Borrar: <%= quizes[i].pregunta %>');" >
+						Borrar
+					</button>
+				</form>
+			</td>
 		</tr>
 	<% } %>
 <% }else{ %>	

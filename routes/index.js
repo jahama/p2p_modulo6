@@ -33,7 +33,10 @@ router.post('/quizes/create',				quizController.create);
 // 
 router.get('/quizes/:quizId(\\d+)/edit',	quizController.edit);
 // PUT /quizes/:quizId actualiza la DB con la pregunta corregida
-router.put('/quizes/:quizId(\\d+)',		quizController.update)
+router.put('/quizes/:quizId(\\d+)',			quizController.update)
+// DELETE /quizes/:quizId borra de la BBDD la pregunta con el id seleccionado
+router.delete('/quizes/:quizId(\\d+)',		quizController.destroy)
+
 
 /* GET Author page. */
 router.get('/author', function(req, res) {
