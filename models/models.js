@@ -43,30 +43,21 @@ definiciones del modelo, siempre que sean compatibles con anteriores.
 sequelize.sync().then(function(){
 	
 	// success(..) ejecuta el manejador una vez creada la tabla
-	Quiz.count().then(function(count){
+	Quiz.count().success(function(count){
 		
-		//if(count===0){ // la tabla se inicializa solo si esta vacia
+		if(count===0){ // la tabla se inicializa solo si esta vacia
 			Quiz.create({
 							pregunta :'Capital de Italia',
 							respuesta:'Roma',
 							tema:'Ocio'
 						});
-			Quiz.create({
-							pregunta :'Capital de Alemania',
-							respuesta:'Berlin',
-							tema:'Ocio'
-						});
-			Quiz.create({
-							pregunta :'Capital de Suecia',
-							respuesta:'Estocolmo',
-							tema:'Ocio'
-						});
+			
 			Quiz.create({
 							pregunta :'Capital de Portugal',
 							respuesta:'Lisboa',
 							tema:'Humanidades'
 						})
 			.then(function(){console.log('Base de datos inicializada')});
-		//};
+		};
 	});
 });
