@@ -53,11 +53,13 @@ sequelize.sync().then(function(){
 						});
 			Quiz.create({
 							pregunta :'Capital de Alemania',
-							respuesta:'Berlin'
+							respuesta:'Berlin',
+							tema:'Ocio'
 						});
 			Quiz.create({
 							pregunta :'Capital de Suecia',
-							respuesta:'Estocolmo'
+							respuesta:'Estocolmo',
+							tema:'Ocio'
 						});
 			Quiz.create({
 							pregunta :'Capital de Portugal',
