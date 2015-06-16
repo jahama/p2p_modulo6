@@ -40,7 +40,7 @@ la DB y sus datos iniciales, si la DB no existe. Si existe sincroniza con nuevas
 definiciones del modelo, siempre que sean compatibles con anteriores.
 */
 
-sequelize.sync().success(function(){
+sequelize.sync().then(function(){
 	
 	// success(..) ejecuta el manejador una vez creada la tabla
 	Quiz.count().success(function(count){
