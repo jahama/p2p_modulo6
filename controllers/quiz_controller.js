@@ -24,8 +24,10 @@ exports.index = function(req,res){
 			}
 		).catch(function(error) {next(error);})
 	}else{ // No se utiliza el buscador --> Se muestra todas las preguntas que hay en la BBDD
+		console.log(" ----- 1 ------------- ");
 		models.Quiz.findAll().then(
-			function(quizes){		
+			function(quizes){
+				console.log(" ----- 2 ------------- ",quizes);		
 				res.render('quizes/index.ejs',{quizes:quizes, errors:[]});
 			}
 		).catch(function(error) {next(error);})
