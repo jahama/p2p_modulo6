@@ -43,7 +43,7 @@ definiciones del modelo, siempre que sean compatibles con anteriores.
 sequelize.sync().then(function(){
 	
 	// success(..) ejecuta el manejador una vez creada la tabla
-	Quiz.count().success(function(count){
+	Quiz.count().then(function(count){
 		
 		if(count===0){ // la tabla se inicializa solo si esta vacia
 			Quiz.create({
