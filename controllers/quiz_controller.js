@@ -82,7 +82,7 @@ exports.create = function(req,res){
 				res.render('quizes/new', {quiz:quiz,errors:err.errors});
 			}else{
 				quiz // save: guarda en la BBDD los campos pregunta y respuesta de quiz
-				.save({fields: ["pregunta","respuesta"]})
+				.save({fields: ["pregunta","respuesta","tema"]})
 				.then(function(){res.redirect('/quizes')})  // Redireccion HTTP (URL relativo) lista de preguntas
 			}  
 		}
@@ -92,7 +92,7 @@ exports.create = function(req,res){
 // GET /quizes/:id/edit
 exports.edit = function(req,res){
 	var quiz=req.quiz; // Autoload de instancia de quiz
-	
+		
 	res.render('quizes/edit', {quiz:quiz,errors:[]});
 	
 };
@@ -103,9 +103,10 @@ exports.edit = function(req,res){
 /*
 	 
 */
-exports.update = function(req,res){	
+exports.update = function(req,res){		
 	req.quiz.pregunta  = req.body.quiz.pregunta;
 	req.quiz.respuesta = req.body.quiz.respuesta;
+	req.quiz.tema = req.body.quiz.tema;
 
 	req.quiz
 	.validate()
@@ -115,7 +116,7 @@ exports.update = function(req,res){
 				res.render('quizes/edit', {quiz:req.quiz,errors:err.errors});
 			}else{
 				req.quiz // save: guarda en la BBDD los campos pregunta y respuesta de quiz
-				.save({fields: ["pregunta","respuesta"]})
+				.save({fields: ["pregunta","respuesta","tema"]})
 				.then(function(){res.redirect('/quizes')})  // Redireccion HTTP (URL relativo) lista de preguntas
 			}  
 		}
