@@ -30,9 +30,19 @@ var sequelize = new Sequelize(DB_name, user, pwd,
 // Importar la definicion de la tabla Quiz en quiz.js
 var quiz_path = path.join(__dirname,'quiz')
 var Quiz = sequelize.import(quiz_path);
+//  Crear la nueva tabla : Importar la definicion de la tabla Comment en comment.js
+var comment_path = path.join(__dirname,'comment');
+var Comment = sequelize.import(comment_path);
+// Definir las relaciones entre la tabla de Preguntas y comentarios (1 a N) 
+Comment.belongsTo(Quiz); // Define la parte 1 de la relacion
+Quiz.hasMany(Comment);   // Parte N: Una pregunta puede tener muchos comentarios
+
+
+
 // exportar definicion de la tabla Quiz
 exports.Quiz = Quiz;
-
+// exportar definicion de la tabla Comment
+exports.Comment = Comment;
 // sequilize.sync() crea e inicializa la tabla de preguntas en DB
 /*
 El método sequelize.sync() crea automáticamente el fichero quiz.sqlite con
@@ -40,12 +50,10 @@ la DB y sus datos iniciales, si la DB no existe. Si existe sincroniza con nuevas
 definiciones del modelo, siempre que sean compatibles con anteriores.
 */
 
-sequelize.sync().then(function(){
-	console.log(" ----- crear BBDD --  1 ------------- ");
+sequelize.sync().then(function(){	
 	// success(..) ejecuta el manejador una vez creada la tabla
 	Quiz.count().then(function(count){
-		console.log(" ----- crear BBDD --  2------------- ");
-		//if(count===0){ // la tabla se inicializa solo si esta vacia
+		if(count===0){ // la tabla se inicializa solo si esta vacia
 			Quiz.create({
 							pregunta :'Capital de Italia',
 							respuesta:'Roma',
@@ -58,6 +66,6 @@ sequelize.sync().then(function(){
 							tema:'Humanidades'
 						})
 			.then(function(){console.log('Base de datos inicializada')});
-	//	};
+		};
 	});
 });
