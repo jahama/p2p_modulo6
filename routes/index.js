@@ -3,10 +3,11 @@ var express = require('express');
 var router = express.Router();
 
 
-var quizController = require ('../controllers/quiz_controller');
-/*********************************************/
-/***** Definicion de las rutas de Quizes *****/
-/*********************************************/
+var quizController    = require ('../controllers/quiz_controller');
+var commentController = require ('../controllers/comment_controller');
+/****************************************************************/
+/***** Definicion de las rutas de Quizes : EL INTERFAZ REST *****/
+/****************************************************************/
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'Quiz', errors:[] });
@@ -23,6 +24,7 @@ router.get('/', function(req, res) {
 	existe el parámetro :quizId está en algún lugar de la cabecera HTTP (en query, body o param). 
 */
 router.param('quizId', quizController.load); // autoload :quizId
+//router.param('commentId', commentController.load); // autoload :quizId
 
 router.get('/quizes', 						quizController.index);
 router.get('/quizes/:quizId(\\d+)',			quizController.show);
@@ -38,6 +40,8 @@ router.put('/quizes/:quizId(\\d+)',			quizController.update)
 router.delete('/quizes/:quizId(\\d+)',		quizController.destroy)
 
 
+
+
 /* GET Author page. */
 router.get('/author', function(req, res) {
   res.render('author', { title: 'Quiz', errors:[] });
@@ -51,4 +55,10 @@ router.get('/quizes/question', quizController.question);
 // Si viene por esta ruta, en fuuncion de la respuesta se mostrara si la respuesta ha sido correcta o no
 router.get('/quizes/answer'  , quizController.answer);
 
+/****************************************************************/
+/***** Definicion de las rutas de Coments : EL INTERFAZ REST ****/
+/****************************************************************/
+
+router.get ('/quizes/:quizId(\\d+)/comments/new',	commentController.new);
+router.post('/quizes/:quizId(\\d+)/comments'	,   commentController.create);
 module.exports = router;
