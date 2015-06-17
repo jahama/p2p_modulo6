@@ -41,11 +41,11 @@ definiciones del modelo, siempre que sean compatibles con anteriores.
 */
 
 sequelize.sync().then(function(){
-	
+	console.log(" ----- crear BBDD --  1 ------------- ");
 	// success(..) ejecuta el manejador una vez creada la tabla
 	Quiz.count().then(function(count){
-		
-		if(count===0){ // la tabla se inicializa solo si esta vacia
+		console.log(" ----- crear BBDD --  2------------- ");
+		//if(count===0){ // la tabla se inicializa solo si esta vacia
 			Quiz.create({
 							pregunta :'Capital de Italia',
 							respuesta:'Roma',
@@ -58,6 +58,6 @@ sequelize.sync().then(function(){
 							tema:'Humanidades'
 						})
 			.then(function(){console.log('Base de datos inicializada')});
-		};
+	//	};
 	});
 });
