@@ -31,9 +31,13 @@ exports.index = function(req,res){
 	console.log(' ------ 3 ----------- ');	
 		models.Quiz.findAll().then(
 			function(quizes){
+				console.log(' ------ 3-1 ----------- ', quizes);	
 				res.render('quizes/index.ejs',{quizes:quizes, errors:[]});
 			}
-		).catch(function(error) {})
+		 ).catch(function(error){
+		 	console.log(' ------ 3-2 ----------- ', error);	
+		 	next(error);
+		 });
 	}
 	console.log(' ------ 4 ----------- ');
 };
