@@ -18,28 +18,28 @@ exports.load =function(req, res, next, quizId){
 
 // GET /quizes
 exports.index = function(req,res){	
-	console.log(' ------ 1 ----------- ');
+	
 	// Se utiliza el buscador 
 	if (typeof(req.query.search) !== "undefined") {
-		console.log(' ------ 2 ----------- ');
+		
 		models.Quiz.findAll({where: ["pregunta like ?", '%' + req.query.search + '%'], order:'pregunta ASC'}).then(
 			function(quizes){						
 				res.render('quizes/index.ejs',{quizes:quizes,numero_preguntas:quizes.length, errors:[]});
 			}
 		).catch(function(error) {next(error);})
 	}else{ // No se utiliza el buscador --> Se muestra todas las preguntas que hay en la BBDD	
-	console.log(' ------ 3 ----------- ');	
+		
 		models.Quiz.findAll().then(
 			function(quizes){
-				console.log(' ------ 3-1 ----------- ', quizes);	
+					
 				res.render('quizes/index.ejs',{quizes:quizes, errors:[]});
 			}
 		 ).catch(function(error){
-		 	console.log(' ------ 3-2 ----------- ', error);	
+		 	
 		 	next(error);
 		 });
 	}
-	console.log(' ------ 4 ----------- ');
+	
 };
 
 // GET /quizes/:id
