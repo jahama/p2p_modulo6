@@ -5,6 +5,7 @@ var router = express.Router();
 
 var quizController    = require ('../controllers/quiz_controller');
 var commentController = require ('../controllers/comment_controller');
+var sessionController = require ('../controllers/session_controller')
 /****************************************************************/
 /***** Definicion de las rutas de Quizes : EL INTERFAZ REST *****/
 /****************************************************************/
@@ -62,3 +63,10 @@ router.get('/quizes/answer'  , quizController.answer);
 router.get ('/quizes/:quizId(\\d+)/comments/new',	commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments'	,   commentController.create);
 module.exports = router;
+
+/*****************************************************************/
+/***** Definicion de las rutas de Session : EL INTERFAZ REST *****/
+/*****************************************************************/
+router.get ('/login'    , sessionController.new);     // formulario de LOGIN
+router.post('/login'    , sessionController.create);  // crear session
+router.get ('/logout'  , sessionController.destroy);  // destruir la session

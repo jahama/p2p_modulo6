@@ -34,6 +34,7 @@ var Quiz = sequelize.import(quiz_path);
 var comment_path = path.join(__dirname,'comment');
 var Comment = sequelize.import(comment_path);
 // Definir las relaciones entre la tabla de Preguntas y comentarios (1 a N) 
+// Relacion 
 Comment.belongsTo(Quiz); // Define la parte 1 de la relacion
 Quiz.hasMany(Comment);   // Parte N: Una pregunta puede tener muchos comentarios
 
