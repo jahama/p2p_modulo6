@@ -30,15 +30,15 @@ router.param('quizId', quizController.load); // autoload :quizId
 router.get('/quizes', 						quizController.index);
 router.get('/quizes/:quizId(\\d+)',			quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer',	quizController.answer);
-router.get('/quizes/new',					quizController.new);
+router.get('/quizes/new',					sessionController.loginRequired,	quizController.new);
 // POST /quizes/create: añade la primitiva que introduce nuevos quizes en la DB.
-router.post('/quizes/create',				quizController.create);
+router.post('/quizes/create',				sessionController.loginRequired,	quizController.create);
 // 
-router.get('/quizes/:quizId(\\d+)/edit',	quizController.edit);
+router.get('/quizes/:quizId(\\d+)/edit',	sessionController.loginRequired,	quizController.edit);
 // PUT /quizes/:quizId actualiza la DB con la pregunta corregida
-router.put('/quizes/:quizId(\\d+)',			quizController.update)
+router.put('/quizes/:quizId(\\d+)',			sessionController.loginRequired,	quizController.update);
 // DELETE /quizes/:quizId borra de la BBDD la pregunta con el id seleccionado
-router.delete('/quizes/:quizId(\\d+)',		quizController.destroy)
+router.delete('/quizes/:quizId(\\d+)',		sessionController.loginRequired,	quizController.destroy);
 
 
 

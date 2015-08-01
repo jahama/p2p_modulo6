@@ -13,7 +13,9 @@
 <% if (quizes.length > 0) { %>.	
 	<% var i; for (i=0; i<quizes.length; i++) {  %>
 		<tr>
+			<td><%= quizes[i].tema %></td>
 			<td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
+		  <% if (session.user) { %>
 			<td><a href="/quizes/<%= quizes[i].id %>/edit"><button type="button">Editar</button></a></td>
 			<%  /* 
 				Se añade botón de borrar a cada pregunta en la lista de preguntas: quiz/index.ejs.
@@ -31,10 +33,13 @@
 					</button>
 				</form>
 			</td>
+		  <% } %>
 		</tr>
 	<% } %>
 <% }else{ %>	
 		<p>No se ha encontrado ninguna pregunta. </p>
 <% } %>
 </table>
-<a href="/quizes/new"><button type="button">Crear pregunta</button></a>
+ <% if (session.user) { %>
+	<a href="/quizes/new"><button type="button">Crear pregunta</button></a>
+ <% } %>

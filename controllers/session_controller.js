@@ -1,6 +1,21 @@
 //  El controlador importa el modelo para poder acceder a DB
 var models = require('../models/models.js');
 
+/*
+	Para evitar la ejecución de los middlewares de atención a las operaciones que necesitan
+	autenticación, se añade a session_controller.js un nuevo middleware que solo deja continuar
+	al usuario si está autenticado. Son solo le da acceso a la pantalla de login. 
+*/
+
+// Middleware de autorizacion de accesos HTTP restringidos
+exports.loginRequired = function(req, res, next){
+	if (req.session.user){
+		next();
+	} else {
+		res.redirect('/login');
+	}
+}
+
 // Get /login -- Formulario de Login
 exports.new = function(req, res){
 	var errors = req.session.errors || {};
@@ -36,8 +51,9 @@ exports.create = function(req,res){
 
 // GET /logout  --Destruir la sesión (Debiera de ser DELETE (REST))
 exports.destroy = function(req, res){
-	console.log(" -- destruir la sesion --");
+  console.log(" -- destruir la sesion --");
   delete req.session.user;
   // Redirección a path anterior a login
   res.redirect(req.session.redir.toString());
 };
+
