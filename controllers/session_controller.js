@@ -1,6 +1,32 @@
 //  El controlador importa el modelo para poder acceder a DB
 var models = require('../models/models.js');
 
+// MW para controlar la expiracion de la sesion
+exports.autoLogout = function(req, res, next)
+{
+	// Comprobamos el tiempo de autologout
+    if (req.session.user)
+    {
+        var tmpLastTransaction = (req.session.user.transactionTime) || 0;
+        var fecha = new Date();
+
+        // Comprobamos que no hayan pasado mas de 2 minutos desde la ultima transaccion
+        if (Number(fecha.getTime()) - Number(tmpLastTransaction) > 120000 && Number(tmpLastTransaction) > 0)
+        {
+        	// Eliminamos la sesion y continuamos
+            delete req.session.user;
+            next();
+        }
+        else {
+        	// Guardamos el nuevo tiempo
+        	req.session.user.transactionTime = fecha.getTime();
+        	next();
+        }
+    }
+    else
+    	next();
+}
+
 /*
 	Para evitar la ejecución de los middlewares de atención a las operaciones que necesitan
 	autenticación, se añade a session_controller.js un nuevo middleware que solo deja continuar
