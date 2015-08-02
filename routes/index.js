@@ -25,7 +25,7 @@ router.get('/', function(req, res) {
 	existe el parámetro :quizId está en algún lugar de la cabecera HTTP (en query, body o param). 
 */
 router.param('quizId', quizController.load); // autoload :quizId
-//router.param('commentId', commentController.load); // autoload :quizId
+router.param('commentId', commentController.load); // autoload :commentId
 
 router.get('/quizes', 						quizController.index);
 router.get('/quizes/:quizId(\\d+)',			quizController.show);
@@ -62,7 +62,10 @@ router.get('/quizes/answer'  , quizController.answer);
 
 router.get ('/quizes/:quizId(\\d+)/comments/new',	commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments'	,   commentController.create);
-module.exports = router;
+//router.get ('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish',	sessionController.loginRequired, commentController.publish);
+router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish',
+            sessionController.loginRequired, commentController.publish);
+
 
 /*****************************************************************/
 /***** Definicion de las rutas de Session : EL INTERFAZ REST *****/
@@ -70,3 +73,5 @@ module.exports = router;
 router.get ('/login'    , sessionController.new);     // formulario de LOGIN
 router.post('/login'    , sessionController.create);  // crear session
 router.get ('/logout'  , sessionController.destroy);  // destruir la session
+
+module.exports = router;
